@@ -22,7 +22,7 @@
     <import resource="spring_database.xml"/>
 
     <bean id="hotelPushService"
-          class="com.derbysoft.chapaai.adapter.pusher.application.service.impl.HotelPushServiceImpl">
+          class="com.derbysoft.chapaai.adapter.pusher.service.impl.HotelPushServiceImpl">
         <property name="changeRepository" ref="changeRepository"/>
         <property name="pushServices">
             <list>
@@ -32,7 +32,7 @@
     </bean>
 
     <bean id="changeRepository"
-          class="com.derbysoft.chapaai.adapter.pusher.domain.repository.impl.ChangeRepositoryImpl">
+          class="com.derbysoft.chapaai.adapter.pusher.repository.impl.ChangeRepositoryImpl">
         <property name="synchronizeChangeService" ref="synchronizerRemoteService"/>
         <property name="channel" value="${push.channel}"/>
     </bean>
@@ -43,7 +43,7 @@
     </bean>
 
     <bean id="stayAvailabilityPushService"
-          class="com.derbysoft.chapaai.adapter.pusher.application.service.impl.StayAvailabilityPushServiceImpl">
+          class="com.derbysoft.chapaai.adapter.pusher.service.impl.StayAvailabilityPushServiceImpl">
         <property name="stayAvailabilityTranslator" ref="stayAvailabilityTranslator"/>
         <property name="webServiceTemplate" ref="webServiceTemplate"/>
     </bean>
@@ -86,7 +86,7 @@
 
     <aop:config proxy-target-class="true">
         <aop:pointcut id="serviceMethod"
-                      expression="execution(* com.derbysoft.chapaai.adapter.pusher.application.service.*.*(..))"/>
+                      expression="execution(* com.derbysoft.chapaai.adapter.pusher.service.*.*(..))"/>
         <aop:advisor pointcut-ref="serviceMethod" advice-ref="servicesAdvice"/>
     </aop:config>
 </beans>

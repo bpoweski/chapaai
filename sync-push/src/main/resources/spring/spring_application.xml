@@ -16,7 +16,7 @@
     <import resource="spring_service.xml"/>
 
     <bean id="pushTimer"
-          class="com.derbysoft.chapaai.adapter.pusher.application.timer.PushTimer"
+          class="com.derbysoft.chapaai.adapter.pusher.timer.PushTimer"
           init-method="start">
         <property name="intervalSeconds" value="${pull.timer.interval.seconds}"/>
         <property name="pushTimerTask" ref="pushTimerTask"/>
@@ -29,13 +29,13 @@
     </bean>
 
     <bean id="pushTimerTask"
-          class="com.derbysoft.chapaai.adapter.pusher.application.timer.timertask.PushTimerTask">
+          class="com.derbysoft.chapaai.adapter.pusher.timer.timertask.PushTimerTask">
         <property name="providerRepository" ref="providerRepository"/>
         <lookup-method name="createProviderPushTimer" bean="providerPushTimer"/>
     </bean>
 
     <bean id="providerPushTimer"
-          class="com.derbysoft.chapaai.adapter.pusher.application.timer.ProviderPushTimer"
+          class="com.derbysoft.chapaai.adapter.pusher.timer.ProviderPushTimer"
           scope="prototype">
         <property name="timer">
             <bean class="java.util.Timer">
@@ -47,13 +47,13 @@
     </bean>
 
     <bean id="pushTaskExecutor"
-          class="com.derbysoft.chapaai.adapter.pusher.application.task.executor.PushTaskExecutor"
+          class="com.derbysoft.chapaai.adapter.pusher.task.executor.PushTaskExecutor"
           scope="prototype">
         <property name="hotelPushService" ref="hotelPushService"/>
     </bean>
 
     <bean id="providerPushTimerTask"
-          class="com.derbysoft.chapaai.adapter.pusher.application.timer.timertask.ProviderPushTimerTask"
+          class="com.derbysoft.chapaai.adapter.pusher.timer.timertask.ProviderPushTimerTask"
           scope="prototype">
         <property name="taskGenerator" ref="pushTaskGenerator"/>
         <property name="pushTaskQueue">
@@ -63,7 +63,7 @@
 
 
     <bean id="pushTaskGenerator"
-          class="com.derbysoft.chapaai.adapter.pusher.application.task.generator.PushTaskGenerator"
+          class="com.derbysoft.chapaai.adapter.pusher.task.generator.PushTaskGenerator"
           scope="prototype">
         <property name="hotelRepository" ref="hotelRepository"/>
         <property name="changeRepository" ref="changeRepository"/>

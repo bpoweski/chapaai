@@ -1,10 +1,10 @@
 package com.derbysoft.chapaai.adapter.pusher.integrationtest;
 
-import com.derbysoft.chapaai.adapter.pusher.application.timer.PushTimer;
+import com.derbysoft.chapaai.adapter.pusher.timer.PushTimer;
 import com.derbysoft.chapaai.adapter.pusher.domain.model.Hotel;
 import com.derbysoft.chapaai.adapter.pusher.domain.model.Provider;
-import com.derbysoft.chapaai.adapter.pusher.domain.repository.HotelRepository;
-import com.derbysoft.chapaai.adapter.pusher.domain.repository.ProviderRepository;
+import com.derbysoft.chapaai.adapter.pusher.repository.HotelRepository;
+import com.derbysoft.chapaai.adapter.pusher.repository.ProviderRepository;
 import org.junit.Test;
 import org.junit.Before;
 import org.junit.runner.RunWith;

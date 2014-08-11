@@ -86,31 +86,31 @@
 
     <aop:config proxy-target-class="true">
         <aop:pointcut id="repositoryMethod"
-                      expression="execution(* com.derbysoft.chapaai.adapter.pusher.domain.repository.*.*(..))"/>
+                      expression="execution(* com.derbysoft.chapaai.adapter.pusher.repository.*.*(..))"/>
         <aop:pointcut id="serviceMethod"
-                      expression="execution(* com.derbysoft.chapaai.adapter.pusher.application.service.*.*(..))"/>
+                      expression="execution(* com.derbysoft.chapaai.adapter.pusher.service.*.*(..))"/>
         <aop:advisor pointcut-ref="repositoryMethod" advice-ref="repositoryAdvice"/>
     </aop:config>
     <!--Transaction-->
 
     <!--Repository-->
     <bean id="providerRepository"
-          class="com.derbysoft.chapaai.adapter.pusher.domain.repository.impl.ProviderRepositoryImpl">
+          class="com.derbysoft.chapaai.adapter.pusher.repository.impl.ProviderRepositoryImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
     <bean id="hotelRepository"
-          class="com.derbysoft.chapaai.adapter.pusher.domain.repository.impl.HotelRepositoryImpl">
+          class="com.derbysoft.chapaai.adapter.pusher.repository.impl.HotelRepositoryImpl">
         <property name="mappingCache" ref="hotelCache"/>
     </bean>
 
     <bean id="ratePlanRepository"
-          class="com.derbysoft.chapaai.adapter.pusher.domain.repository.impl.RatePlanRepositoryImpl">
+          class="com.derbysoft.chapaai.adapter.pusher.repository.impl.RatePlanRepositoryImpl">
         <property name="mappingCache" ref="ratePlanCache"/>
     </bean>
 
     <bean id="roomTypeRepository"
-          class="com.derbysoft.chapaai.adapter.pusher.domain.repository.impl.RoomTypeRepositoryImpl">
+          class="com.derbysoft.chapaai.adapter.pusher.repository.impl.RoomTypeRepositoryImpl">
         <property name="mappingCache" ref="roomTypeCache"/>
     </bean>
     <!--Repository-->

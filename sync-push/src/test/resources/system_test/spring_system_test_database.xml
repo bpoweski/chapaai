@@ -89,7 +89,7 @@
 
     <!--Repository-->
     <bean id="abnormalPushEntryRepository"
-          class="com.derbysoft.chapaai.adapter.pusher.domain.repository.impl.AbnormalPushEntryRepositoryImpl">
+          class="com.derbysoft.chapaai.adapter.pusher.repository.impl.AbnormalPushEntryRepositoryImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
@@ -99,12 +99,12 @@
     </bean>
 
     <bean id="ProviderRepository"
-          class="com.derbysoft.chapaai.adapter.pusher.domain.repository.impl.ProviderRepositoryImpl">
+          class="com.derbysoft.chapaai.adapter.pusher.repository.impl.ProviderRepositoryImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
     <bean id="hotelRepository"
-          class="com.derbysoft.chapaai.adapter.pusher.domain.repository.impl.HotelRepositoryImpl">
+          class="com.derbysoft.chapaai.adapter.pusher.repository.impl.HotelRepositoryImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
     <!--Repository-->

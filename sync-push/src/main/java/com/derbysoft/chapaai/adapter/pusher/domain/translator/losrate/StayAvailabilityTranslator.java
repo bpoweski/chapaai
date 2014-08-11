@@ -1,6 +1,6 @@
 package com.derbysoft.chapaai.adapter.pusher.domain.translator.losrate;
 
-import com.derbysoft.chapaai.adapter.pusher.application.service.MappingService;
+import com.derbysoft.chapaai.adapter.pusher.service.MappingService;
 import com.derbysoft.chapaai.adapter.pusher.domain.stay.DateSpan;
 import com.derbysoft.chapaai.adapter.pusher.domain.stay.StayAvailability;
 import com.derbysoft.dswitch.dto.hotel.cds.LOSRateChangeDTO;

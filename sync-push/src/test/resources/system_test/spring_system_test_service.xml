@@ -16,7 +16,7 @@
     <import resource="spring_system_test_database.xml"/>
 
     <bean id="hotelPushService"
-          class="com.derbysoft.chapaai.adapter.pusher.application.service.impl.HotelPushServiceImpl">
+          class="com.derbysoft.chapaai.adapter.pusher.service.impl.HotelPushServiceImpl">
         <property name="changeRepository" ref="ChangeRepository"/>
         <property name="pushServices">
             <list>
@@ -26,7 +26,7 @@
     </bean>
 
     <bean id="ChangeRepository"
-          class="com.derbysoft.chapaai.adapter.pusher.domain.repository.impl.ChangeRepositoryImpl">
+          class="com.derbysoft.chapaai.adapter.pusher.repository.impl.ChangeRepositoryImpl">
         <property name="synchronizeChangeService" ref="synchronizerRemoteService"/>
         <property name="channel" value="channel"/>
     </bean>
@@ -38,7 +38,7 @@
     </bean>
 
     <bean id="stayAvailabilityPushService"
-          class="com.derbysoft.chapaai.adapter.pusher.application.service.impl.StayAvailabilityPushServiceImpl">
+          class="com.derbysoft.chapaai.adapter.pusher.service.impl.StayAvailabilityPushServiceImpl">
         <property name="stayAvailabilityTranslator" ref="stayAvailabilityTranslator"/>
         <property name="webServiceTemplate" ref="webServiceTemplate"/>
     </bean>
