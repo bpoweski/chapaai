@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <import resource="spring_system_test_database.xml"/>
+    <import resource="spring_system_test_service.xml"/>
+
+    <bean id="PushTimer"
+          class="com.derbysoft.chapaai.adapter.pusher.application.timer.PushTimer">
+        <property name="intervalSeconds" value="15"/>
+        <property name="pushTimerTask" ref="PushTimerTask"/>
+        <property name="timer">
+            <bean id="ProviderPushScheduleTimer"
+                  class="java.util.Timer">
+                <constructor-arg index="0" value="PushTimer"/>
+                <constructor-arg index="1" value="false"/>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="PushTimerTask"
+          class="com.derbysoft.chapaai.adapter.pusher.application.timer.timertask.PushTimerTask">
+        <property name="providerRepository" ref="ProviderRepository"/>
+        <lookup-method name="createProviderPushTimer" bean="ProviderPushTimer"/>
+    </bean>
+
+    <bean id="ProviderPushTimer"
+          class="com.derbysoft.chapaai.adapter.pusher.application.timer.ProviderPushTimer"
+          scope="prototype">
+        <property name="timer">
+            <bean id="ProviderPushScheduleTimer"
+                  class="java.util.Timer"
+                  scope="prototype">
+                <constructor-arg index="0" value="false"/>
+            </bean>
+        </property>
+        <property name="providerPushTimerTask" ref="ProviderPushTimerTask"/>
+        <property name="pushTaskExecutor" ref="PushTaskExecutor"/>
+    </bean>
+
+    <bean id="PushTaskExecutor"
+          class="com.derbysoft.chapaai.adapter.pusher.application.task.executor.PushTaskExecutor"
+          scope="prototype">
+        <property name="hotelPushService" ref="hotelPushService"/>
+    </bean>
+
+    <bean id="ProviderPushTimerTask"
+          class="com.derbysoft.chapaai.adapter.pusher.application.timer.timertask.ProviderPushTimerTask"
+          scope="prototype">
+        <property name="taskGenerator" ref="PushTaskGenerator"/>
+        <property name="pushTaskQueue">
+            <bean class="com.derbysoft.chapaai.adapter.core.concurrent.PriorityTaskQueue"
+                  scope="prototype"/>
+        </property>
+    </bean>
+
+
+    <bean id="PushTaskGenerator"
+          class="com.derbysoft.chapaai.adapter.pusher.application.task.generator.PushTaskGenerator"
+          scope="prototype">
+        <property name="hotelRepository" ref="hotelRepository"/>
+        <property name="changeRepository" ref="ChangeRepository"/>
+    </bean>
+
+</beans>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context-3.0.xsd
+                           http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+
+    <context:property-placeholder location="classpath:environment.properties"/>
+    <util:properties id="properties" location="classpath:environment.properties"/>
+    <import resource="spring_database.xml"/>
+
+    <bean id="hotelPushService"
+          class="com.derbysoft.chapaai.adapter.pusher.application.service.impl.HotelPushServiceImpl">
+        <property name="changeRepository" ref="ChangeRepository"/>
+        <property name="pushServices">
+            <list>
+                <ref bean="stayAvailabilityPushService"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ChangeRepository"
+          class="com.derbysoft.chapaai.adapter.pusher.domain.repository.impl.ChangeRepositoryImpl">
+        <property name="synchronizeChangeService" ref="synchronizerRemoteService"/>
+        <property name="channel" value="${push.channel}"/>
+    </bean>
+
+    <bean id="synchronizerRemoteService" class="com.derbysoft.synchronizer.remote.buyer.BuyerSynchronizerRemoteService">
+        <constructor-arg value="${cds.host}"/>
+
+    </bean>
+
+    <bean id="stayAvailabilityPushService"
+          class="com.derbysoft.chapaai.adapter.pusher.application.service.impl.StayAvailabilityPushServiceImpl">
+        <property name="stayAvailabilityTranslator" ref="stayAvailabilityTranslator"/>
+        <property name="webServiceTemplate" ref="webServiceTemplate"/>
+    </bean>
+
+
+    <bean id="stayAvailabilityTranslator"
+          class="com.derbysoft.chapaai.adapter.pusher.domain.translator.losrate.StayAvailabilityTranslator">
+        <property name="dailyRateTranslator" ref="dailyRateTranslator"/>
+    </bean>
+
+    <bean id="dailyRateTranslator"
+          class="com.derbysoft.chapaai.adapter.pusher.domain.translator.losrate.DailyRateTranslator"/>
+
+    <bean id="messageFactory" class="org.springframework.ws.soap.saaj.SaajSoapMessageFactory"/>
+
+    <bean id="webServiceTemplate" class="org.springframework.ws.client.core.WebServiceTemplate">
+        <constructor-arg ref="messageFactory"/>
+        <property name="defaultUri" value="${hotelBuyerRemoteService.hostAndPorts}"/>
+        <property name="marshaller" ref="stayAvailabilityUpdateRequestMarshaller"/>
+        <property name="unmarshaller" ref="stayAvailabilityUpdateRequestUnmarshaller"/>
+    </bean>
+
+    <bean id="stayAvailabilityUpdateRequestMarshaller" class="org.springframework.oxm.jibx.JibxMarshaller">
+        <property name="targetClass" value="com.derbysoft.adapter.chapaai.pusher.domain.stay.StayAvailabilityUpdateRequest"/>
+    </bean>
+
+    <bean id="stayAvailabilityUpdateRequestUnmarshaller" class="org.springframework.oxm.jibx.JibxMarshaller">
+        <property name="targetClass" value="com.derbysoft.adapter.chapaai.pusher.domain.stay.StayAvailabilityUpdateResponse"/>
+    </bean>
+
+
+    <tx:advice id="servicesAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="syncPush*" propagation="REQUIRED"/>
+            <tx:method name="save*" propagation="REQUIRED"/>
+            <tx:method name="remove*" propagation="REQUIRED"/>
+            <tx:method name="list*" propagation="REQUIRED"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <aop:config proxy-target-class="true">
+        <aop:pointcut id="serviceMethod"
+                      expression="execution(* com.derbysoft.chapaai.adapter.pusher.application.service.*.*(..))"/>
+        <aop:advisor pointcut-ref="serviceMethod" advice-ref="servicesAdvice"/>
+    </aop:config>
+</beans>

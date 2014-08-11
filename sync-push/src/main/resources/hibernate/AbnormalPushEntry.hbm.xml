@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.derbysoft.adapter.chapaai.pusher.domain.model.abnormalpush">
+    <class name="com.derbysoft.chapaai.adapter.pusher.domain.model.abnormalpush.AbnormalPushEntry"
+           table="ABNORMAL_PUSH_ENTRY"
+           discriminator-value="AB">
+        <id name="id"
+            type="java.lang.String">
+            <column name="ID"/>
+            <generator class="uuid"/>
+        </id>
+        <discriminator
+                column="TYPE"
+                type="string"
+                />
+
+
+        <property name="hotelCode"
+                  column="HOTEL_CODE"
+                  type="java.lang.String"
+                  not-null="true"/>
+        <property name="ratePlanCode"
+                  column="RATEPLAN_CODE"
+                  type="java.lang.String"
+                  not-null="true"/>
+        <property name="roomTypeCode"
+                  column="ROOMTYPE_CODE"
+                  type="java.lang.String"
+                  not-null="true"/>
+
+
+        <subclass name="com.derbysoft.chapaai.adapter.pusher.domain.model.abnormalpush.BlockPushEntry"
+                  discriminator-value="BK">
+        </subclass>
+
+
+        <subclass name="com.derbysoft.chapaai.adapter.pusher.domain.model.abnormalpush.LowFrequencyPushEntry"
+                  discriminator-value="LF">
+        </subclass>
+
+    </class>
+</hibernate-mapping>

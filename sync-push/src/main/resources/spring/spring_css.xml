@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context-3.0.xsd
+                           http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <context:property-placeholder location="classpath:ccs.properties"/>
+    <util:properties id="properties" location="classpath:ccs.properties"/>
+
+    <bean id="hotelCache" class="com.derbysoft.ccs.core.MappingCache">
+        <constructor-arg index="0" value="${css.hotel.topic}"/>
+        <constructor-arg index="1" value="com.derbysoft.chapaai.adapter.pusher.domain.model.Hotel"/>
+    </bean>
+
+    <bean id="ratePlanCache" class="com.derbysoft.ccs.core.MappingCache">
+        <constructor-arg index="0" value="${css.hotel.rate_plan}"/>
+        <constructor-arg index="1" value="com.derbysoft.chapaai.adapter.pusher.domain.model.RatePlan"/>
+    </bean>
+
+    <bean id="roomTypeCache" class="com.derbysoft.ccs.core.MappingCache">
+        <constructor-arg index="0" value="${css.hotel.room_type}"/>
+        <constructor-arg index="1" value="com.derbysoft.chapaai.adapter.pusher.domain.model.RoomType"/>
+    </bean>
+
+    <bean class="com.derbysoft.ccs.core.TopicConsumer">
+        <constructor-arg index="0" value="${ccs.consumer.id}"/>
+        <constructor-arg index="1" value="${ccs.zookeeper.connect}"/>
+        <constructor-arg index="2" value="${ccs.cache.file.dir}"/>
+        <constructor-arg index="3" value="${ccs.url}"/>
+        <constructor-arg index="4">
+            <list>
+                <ref bean="hotelCache"/>
+                <ref bean="ratePlanCache"/>
+                <ref bean="roomTypeCache"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+</beans>

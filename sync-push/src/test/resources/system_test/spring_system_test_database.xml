@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+
+
+
+
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!--Session Factory-->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/chapaai?useUnicode=true&amp;characterEncoding=UTF-8&amp;autoReconnect=true"/>
+        <property name="user" value="root"/>
+        <property name="password" value="derbysoft"/>
+
+        <property name="minPoolSize" value="1"/>
+        <property name="maxPoolSize" value="5"/>
+        <property name="initialPoolSize" value="1"/>
+
+        <property name="idleConnectionTestPeriod" value="10"/>
+        <property name="breakAfterAcquireFailure" value="true"/>
+        <property name="checkoutTimeout" value="15000"/>
+        <property name="maxIdleTime" value="20000"/>
+        <property name="acquireRetryAttempts" value="-1"/>
+        <property name="acquireIncrement" value="10"/>
+        <property name="maxStatements" value="0"/>
+    </bean>
+
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+
+        <property name="mappingResources">
+            <list>
+                <value>AbnormalPushEntry.hbm.xml</value>
+                <value>Provider.hbm.xml</value>
+                <value>Hotel.hbm.xml</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.format_sql">true</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.max_fetch_depth">6</prop>
+                <prop key="hibernate.default_batch_fetch_size">10</prop>
+                <prop key="hibernate.connection.isolation">2</prop>
+                <prop key="hibernate.jdbc.fetch_size">50</prop>
+                <prop key="hibernate.jdbc.batch_size">25</prop>
+            </props>
+        </property>
+        <property name="namingStrategy">
+            <bean class="org.hibernate.cfg.ImprovedNamingStrategy"/>
+        </property>
+    </bean>
+    <!--Session Factory-->
+
+    <!--Transaction-->
+    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <tx:advice id="repositoryAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="save*" propagation="REQUIRED"/>
+            <tx:method name="remove*" propagation="REQUIRED"/>
+            <tx:method name="list*" propagation="REQUIRED"/>
+            <tx:method name="get*" propagation="REQUIRED"/>
+            <tx:method name="update*" propagation="REQUIRED"/>
+        </tx:attributes>
+    </tx:advice>
+
+
+
+    <aop:config proxy-target-class="true">
+        <aop:pointcut id="repositoryMethod"
+                      expression="execution(* com.derbysoft.adapter.chapaai.pusher.domain.repository.*.*(..))"/>
+        <aop:advisor pointcut-ref="repositoryMethod" advice-ref="repositoryAdvice"/>
+    </aop:config>
+    <!--Transaction-->
+
+    <!--Repository-->
+    <bean id="abnormalPushEntryRepository"
+          class="com.derbysoft.chapaai.adapter.pusher.domain.repository.impl.AbnormalPushEntryRepositoryImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="hibernateRepository"
+          class="com.derbysoft.chapaai.adapter.core.commons.framework.hibernate.HibernateRepository">
+         <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="ProviderRepository"
+          class="com.derbysoft.chapaai.adapter.pusher.domain.repository.impl.ProviderRepositoryImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="hotelRepository"
+          class="com.derbysoft.chapaai.adapter.pusher.domain.repository.impl.HotelRepositoryImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <!--Repository-->
+</beans>

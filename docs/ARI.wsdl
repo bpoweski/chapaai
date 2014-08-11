@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns="http://www.derbysoft.com/chapaai"
+                  xmlns:tns="http://www.derbysoft.com/chapaai"
+                  targetNamespace="http://www.derbysoft.com/chapaai">
+    <wsdl:types>
+        <xs:schema xmlns="http://www.derbysoft.com/chapaai" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                   attributeFormDefault="unqualified" elementFormDefault="qualified"
+                   id="OTA2013B" targetNamespace="http://www.derbysoft.com/chapaai">
+            <!--Request-->
+            <xs:element name="StayAvailabilityUpdateRequest" type="StayAvailabilityUpdateRequest"/>
+
+            <xs:complexType name="StayAvailabilityUpdateRequest">
+                <xs:sequence>
+                    <xs:element name="StayAvailabilities" minOccurs="1" maxOccurs="1">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element name="StayAvailability"
+                                            type="StayAvailability"
+                                            minOccurs="1"
+                                            maxOccurs="unbounded"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+                <xs:attribute name="Token" type="xs:string" use="required"/>
+                <xs:attribute name="UserName" type="xs:string" use="required"/>
+                <xs:attribute name="Password" type="xs:string" use="required"/>
+                <xs:attribute name="HotelCode" type="xs:string" use="required"/>
+            </xs:complexType>
+
+            <xs:complexType name="StayAvailability">
+                <xs:sequence>
+                    <xs:element name="DateSpan" type="DateSpan" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="DayRates" minOccurs="0" maxOccurs="1">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element name="DayRate"
+                                            type="DayRate"
+                                            minOccurs="0"
+                                            maxOccurs="unbounded"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+                <xs:attribute name="RoomTypeCode" type="xs:string" use="required"/>
+                <xs:attribute name="RatePlanCode" type="xs:string" use="required"/>
+                <xs:attribute name="LOS" type="xs:nonNegativeInteger" use="required"/>
+                <xs:attribute name="AvailableRooms" type="xs:nonNegativeInteger"/>
+                <xs:attribute name="Closed" type="xs:boolean"/>
+            </xs:complexType>
+
+            <xs:complexType name="DateSpan">
+                <xs:attribute name="start" type="xs:string" use="required"/>
+                <xs:attribute name="end" type="xs:string" use="required"/>
+            </xs:complexType>
+
+            <xs:complexType name="DayRate">
+                <xs:sequence>
+                    <xs:element name="Rates" minOccurs="0" maxOccurs="1">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element name="Rate"
+                                            type="Rate"
+                                            minOccurs="1"
+                                            maxOccurs="unbounded"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element name="ExtraChildRates" minOccurs="0" maxOccurs="1">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element name="ExtraRate"
+                                            type="ExtraRate"
+                                            minOccurs="0"
+                                            maxOccurs="unbounded"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+                <xs:attribute name="CurrencyCode" type="xs:string" use="required"/>
+                <xs:attribute name="DayPattern" type="xs:string" use="required"/>
+            </xs:complexType>
+
+
+            <xs:complexType name="Rate">
+                <xs:attribute name="BeforeTaxAmount" type="xs:double" use="required"/>
+                <xs:attribute name="AfterTaxAmount" type="xs:double" use="required"/>
+                <xs:attribute name="AdultCount" type="xs:nonNegativeInteger" use="required"/>
+            </xs:complexType>
+
+            <xs:complexType name="ExtraRate">
+                <xs:attribute name="BeforeTaxAmount" type="xs:double" use="required"/>
+                <xs:attribute name="AfterTaxAmount" type="xs:double" use="required"/>
+                <xs:attribute name="ChildAge" type="xs:nonNegativeInteger" use="required"/>
+            </xs:complexType>
+            <!--Request-->
+
+            <!--Response-->
+            <xs:element name="StayAvailabilityUpdateResponse" type="StayAvailabilityUpdateResponse"/>
+            <xs:complexType name="StayAvailabilityUpdateResponse">
+                <xs:sequence>
+                    <xs:element name="Error" type="StayAvailabilityUpdateResponseError"
+                                minOccurs="0" maxOccurs="1"/>
+                </xs:sequence>
+                <xs:attribute name="Token" type="xs:string" use="required"/>
+                <xs:attribute name="Status" type="StayAvailabilityUpdateResponseStatus" use="required"/>
+            </xs:complexType>
+
+            <xs:simpleType name="StayAvailabilityUpdateResponseStatus">
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="Successful"/>
+                    <xs:enumeration value="Failed"/>
+                </xs:restriction>
+            </xs:simpleType>
+
+            <xs:complexType name="StayAvailabilityUpdateResponseError">
+                <xs:attribute name="Code" type="xs:string" use="required"/>
+                <xs:attribute name="Message" type="xs:string" use="required"/>
+            </xs:complexType>
+            <!--Response-->
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="StayAvailabilityUpdateResponse">
+        <wsdl:part element="tns:StayAvailabilityUpdateResponse" name="StayAvailabilityUpdateResponse">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="StayAvailabilityUpdateRequest">
+        <wsdl:part element="tns:StayAvailabilityUpdateRequest" name="StayAvailabilityUpdateRequest">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:portType name="ARI_PORT">
+        <wsdl:operation name="StayAvailabilityUpdate">
+            <wsdl:input message="tns:StayAvailabilityUpdateRequest" name="StayAvailabilityUpdateRequest">
+            </wsdl:input>
+            <wsdl:output message="tns:StayAvailabilityUpdateResponse" name="StayAvailabilityUpdateResponse">
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="ARI_PORTSoap11" type="tns:ARI_PORT">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="StayAvailabilityUpdate">
+            <soap:operation soapAction=""/>
+            <wsdl:input name="StayAvailabilityUpdateRequest">
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="StayAvailabilityUpdateResponse">
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="ARI_PORTService">
+        <wsdl:port binding="tns:ARI_PORTSoap11" name="ARI_PORTSoap11">
+            <soap:address location="http://www.derbysoftca.com:80/chapaai-service/WS/ARI"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

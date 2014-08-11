@@ -1,0 +1,69 @@
+<binding xmlns:ns1="http://www.derbysoft.com/chapaai" name="DailyAvailabilityBinding" package="com.derbysoft.chapaai.adapter.pusher.domain.stay" trim-whitespace="true">
+  <namespace uri="http://www.derbysoft.com/chapaai" default="elements"/>
+  <format label="ns1:StayAvailabilityUpdateResponseStatus" type="com.derbysoft.chapaai.adapter.pusher.domain.stay.StayAvailabilityUpdateResponseStatus" enum-value-method="xmlValue"/>
+  <mapping abstract="true" type-name="ns1:StayAvailabilityUpdateRequest" class="com.derbysoft.chapaai.adapter.pusher.domain.stay.StayAvailabilityUpdateRequest">
+    <collection get-method="getStayAvailabilityList" set-method="setStayAvailabilityList" name="StayAvailabilities" create-type="java.util.ArrayList">
+      <structure map-as="ns1:StayAvailability" name="StayAvailability"/>
+    </collection>
+    <value style="attribute" name="Token" get-method="getToken" set-method="setToken"/>
+    <value style="attribute" name="UserName" get-method="getUserName" set-method="setUserName"/>
+    <value style="attribute" name="Password" get-method="getPassword" set-method="setPassword"/>
+    <value style="attribute" name="HotelCode" get-method="getHotelCode" set-method="setHotelCode"/>
+  </mapping>
+  <mapping class="com.derbysoft.chapaai.adapter.pusher.domain.stay.StayAvailabilityUpdateRequest" name="StayAvailabilityUpdateRequest">
+    <structure map-as="ns1:StayAvailabilityUpdateRequest"/>
+  </mapping>
+  <mapping abstract="true" type-name="ns1:StayAvailability" class="com.derbysoft.chapaai.adapter.pusher.domain.stay.StayAvailability">
+    <structure map-as="ns1:DateSpan" get-method="getDateSpan" set-method="setDateSpan" name="DateSpan"/>
+    <structure get-method="getDayRates" set-method="setDayRates" usage="optional" name="DayRates">
+      <collection get-method="getDayRateList" set-method="setDayRateList" usage="optional" create-type="java.util.ArrayList">
+        <structure map-as="ns1:DayRate" name="DayRate"/>
+      </collection>
+    </structure>
+    <value style="attribute" name="RoomTypeCode" get-method="getRoomTypeCode" set-method="setRoomTypeCode"/>
+    <value style="attribute" name="RatePlanCode" get-method="getRatePlanCode" set-method="setRatePlanCode"/>
+    <value style="attribute" name="LOS" get-method="getLOS" set-method="setLOS"/>
+    <value style="attribute" name="AvailableRooms" get-method="getAvailableRooms" set-method="setAvailableRooms" usage="optional"/>
+    <value style="attribute" name="Closed" get-method="getClosed" set-method="setClosed" usage="optional"/>
+  </mapping>
+  <mapping abstract="true" type-name="ns1:DateSpan" class="com.derbysoft.chapaai.adapter.pusher.domain.stay.DateSpan">
+    <value style="attribute" name="start" get-method="getStart" set-method="setStart"/>
+    <value style="attribute" name="end" get-method="getEnd" set-method="setEnd"/>
+  </mapping>
+  <mapping abstract="true" type-name="ns1:DayRate" class="com.derbysoft.chapaai.adapter.pusher.domain.stay.DayRate">
+    <structure get-method="getRates" set-method="setRates" usage="optional" name="Rates">
+      <collection get-method="getRateList" set-method="setRateList" create-type="java.util.ArrayList">
+        <structure map-as="ns1:Rate" name="Rate"/>
+      </collection>
+    </structure>
+    <structure get-method="getExtraChildRates" set-method="setExtraChildRates" usage="optional" name="ExtraChildRates">
+      <collection get-method="getExtraRateList" set-method="setExtraRateList" usage="optional" create-type="java.util.ArrayList">
+        <structure map-as="ns1:ExtraRate" name="ExtraRate"/>
+      </collection>
+    </structure>
+    <value style="attribute" name="CurrencyCode" get-method="getCurrencyCode" set-method="setCurrencyCode"/>
+    <value style="attribute" name="DayPattern" get-method="getDayPattern" set-method="setDayPattern"/>
+  </mapping>
+  <mapping abstract="true" type-name="ns1:Rate" class="com.derbysoft.chapaai.adapter.pusher.domain.stay.Rate">
+    <value style="attribute" name="BeforeTaxAmount" get-method="getBeforeTaxAmount" set-method="setBeforeTaxAmount"/>
+    <value style="attribute" name="AfterTaxAmount" get-method="getAfterTaxAmount" set-method="setAfterTaxAmount"/>
+    <value style="attribute" name="AdultCount" get-method="getAdultCount" set-method="setAdultCount"/>
+  </mapping>
+  <mapping abstract="true" type-name="ns1:ExtraRate" class="com.derbysoft.chapaai.adapter.pusher.domain.stay.ExtraRate">
+    <value style="attribute" name="BeforeTaxAmount" get-method="getBeforeTaxAmount" set-method="setBeforeTaxAmount"/>
+    <value style="attribute" name="AfterTaxAmount" get-method="getAfterTaxAmount" set-method="setAfterTaxAmount"/>
+    <value style="attribute" name="ChildAge" get-method="getChildAge" set-method="setChildAge"/>
+  </mapping>
+  <mapping abstract="true" type-name="ns1:StayAvailabilityUpdateResponse" class="com.derbysoft.chapaai.adapter.pusher.domain.stay.StayAvailabilityUpdateResponse">
+    <structure map-as="ns1:StayAvailabilityUpdateResponseError" get-method="getError" set-method="setError" usage="optional" name="Error"/>
+    <value style="attribute" name="Token" get-method="getToken" set-method="setToken"/>
+    <value style="attribute" name="Status" get-method="getStatus" set-method="setStatus" format="ns1:StayAvailabilityUpdateResponseStatus"/>
+  </mapping>
+  <mapping class="com.derbysoft.chapaai.adapter.pusher.domain.stay.StayAvailabilityUpdateResponse" name="StayAvailabilityUpdateResponse">
+    <structure map-as="ns1:StayAvailabilityUpdateResponse"/>
+  </mapping>
+  <mapping abstract="true" type-name="ns1:StayAvailabilityUpdateResponseError" class="com.derbysoft.chapaai.adapter.pusher.domain.stay.StayAvailabilityUpdateResponseError">
+    <value style="attribute" name="Code" get-method="getCode" set-method="setCode"/>
+    <value style="attribute" name="Message" get-method="getMessage" set-method="setMessage"/>
+  </mapping>
+</binding>

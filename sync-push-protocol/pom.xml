@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>chapaai</artifactId>
+        <groupId>com.derbysoft.adapter.chapaai</groupId>
+        <version>1.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>sync-push-protocol</artifactId>
+    <properties>
+        <jibx.version>1.2.5</jibx.version>
+    </properties>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources/xsd</directory>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.jibx</groupId>
+                <artifactId>jibx-maven-plugin</artifactId>
+                <version>${jibx.version}</version>
+                <executions>
+                    <execution>
+                        <id>DailyAvailability</id>
+                        <goals>
+                            <goal>schema-codegen</goal>
+                        </goals>
+                        <configuration>
+                            <options>
+                                <package>com.derbysoft.chapaai.adapter.pusher.domain.stay</package>
+                                <binding-file-name>DailyAvailabilityBinding.xml</binding-file-name>
+                            </options>
+                            <schemaLocation>src/main/resources/xsd</schemaLocation>
+                            <schemaBindingDirectory>src/main/java</schemaBindingDirectory>
+                            <includeSchemas>
+                                <schema>DailyAvailability.xsd</schema>
+                            </includeSchemas>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>bind</id>
+                        <goals>
+                            <goal>bind</goal>
+                        </goals>
+                        <configuration>
+                            <schemaBindingDirectory>src/main/java</schemaBindingDirectory>
+                            <includeSchemaBindings>
+                                <includeSchemaBindings>DailyAvailabilityBinding.xml</includeSchemaBindings>
+                            </includeSchemaBindings>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+    <dependencies>
+        <dependency>
+            <groupId>org.jibx</groupId>
+            <artifactId>jibx-extras</artifactId>
+            <version>${jibx.version}</version>
+        </dependency>
+    </dependencies>
+
+</project>

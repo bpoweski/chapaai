@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.derbysoft.adapter.chapaai.pusher.domain.model">
+    <class name="com.derbysoft.chapaai.adapter.pusher.domain.model.Provider"
+           table="Provider">
+        <id name="id"
+            type="java.lang.String">
+            <column name="ID"/>
+            <generator class="uuid"/>
+        </id>
+
+        <property name="providerCode"
+                  column="PROVIDER_CODE"
+                  type="java.lang.String"/>
+        <property name="pushThreadPoolSize"
+                  column="PUSH_THREADPOOL_SIZE"
+                  type="java.lang.Integer"/>
+        <property name="disabled"
+                  type="java.lang.Boolean">
+            <column name="DISABLE" not-null="false" default="false" />
+        </property>
+
+        <property name="pushStayAvailability"
+                  type="java.lang.Boolean">
+            <column name="PUSH_STAYAVAILABILITY" not-null="false" default="false" />
+        </property>
+    </class>
+</hibernate-mapping>

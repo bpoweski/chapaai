@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns="http://www.derbysoft.com/chapaai" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://www.derbysoft.com/chapaai"
+           elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.000">
+
+    <!--Request-->
+    <xs:element name="StayAvailabilityUpdateRequest" type="StayAvailabilityUpdateRequest"/>
+
+    <xs:complexType name="StayAvailabilityUpdateRequest">
+        <xs:sequence>
+            <xs:element name="StayAvailabilities" minOccurs="1" maxOccurs="1">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="StayAvailability"
+                                    type="StayAvailability"
+                                    minOccurs="1"
+                                    maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="Token" type="xs:string" use="required"/>
+        <xs:attribute name="UserName" type="xs:string" use="required"/>
+        <xs:attribute name="Password" type="xs:string" use="required"/>
+        <xs:attribute name="HotelCode" type="xs:string" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="StayAvailability">
+        <xs:sequence>
+            <xs:element name="DateSpan" type="DateSpan" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="DayRates" minOccurs="0" maxOccurs="1">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="DayRate"
+                                    type="DayRate"
+                                    minOccurs="0"
+                                    maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="RoomTypeCode" type="xs:string" use="required"/>
+        <xs:attribute name="RatePlanCode" type="xs:string" use="required"/>
+        <xs:attribute name="LOS" type="xs:nonNegativeInteger" use="required"/>
+        <xs:attribute name="AvailableRooms" type="xs:nonNegativeInteger"/>
+        <xs:attribute name="Closed" type="xs:boolean"/>
+    </xs:complexType>
+
+    <xs:complexType name="DateSpan">
+        <xs:attribute name="start" type="xs:string" use="required"/>
+        <xs:attribute name="end" type="xs:string" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="DayRate">
+        <xs:sequence>
+            <xs:element name="Rates" minOccurs="0" maxOccurs="1">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="Rate"
+                                    type="Rate"
+                                    minOccurs="1"
+                                    maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="ExtraChildRates" minOccurs="0" maxOccurs="1">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="ExtraRate"
+                                    type="ExtraRate"
+                                    minOccurs="0"
+                                    maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="CurrencyCode" type="xs:string" use="required"/>
+        <xs:attribute name="DayPattern" type="xs:string" use="required"/>
+    </xs:complexType>
+
+
+    <xs:complexType name="Rate">
+        <xs:attribute name="BeforeTaxAmount" type="xs:double" use="required"/>
+        <xs:attribute name="AfterTaxAmount" type="xs:double" use="required"/>
+        <xs:attribute name="AdultCount" type="xs:nonNegativeInteger" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="ExtraRate">
+        <xs:attribute name="BeforeTaxAmount" type="xs:double" use="required"/>
+        <xs:attribute name="AfterTaxAmount" type="xs:double" use="required"/>
+        <xs:attribute name="ChildAge" type="xs:nonNegativeInteger" use="required"/>
+    </xs:complexType>
+    <!--Request-->
+
+    <!--Response-->
+    <xs:element name="StayAvailabilityUpdateResponse" type="StayAvailabilityUpdateResponse"/>
+    <xs:complexType name="StayAvailabilityUpdateResponse">
+        <xs:sequence>
+            <xs:element name="Error" type="StayAvailabilityUpdateResponseError"
+                        minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+        <xs:attribute name="Token" type="xs:string" use="required"/>
+        <xs:attribute name="Status" type="StayAvailabilityUpdateResponseStatus" use="required"/>
+    </xs:complexType>
+
+    <xs:simpleType name="StayAvailabilityUpdateResponseStatus">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Successful"/>
+            <xs:enumeration value="Failed"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="StayAvailabilityUpdateResponseError">
+        <xs:attribute name="Code" type="xs:string" use="required"/>
+        <xs:attribute name="Message" type="xs:string" use="required"/>
+    </xs:complexType>
+    <!--Response-->
+</xs:schema>

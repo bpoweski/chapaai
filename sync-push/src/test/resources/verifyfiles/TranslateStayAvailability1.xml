@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<StayAvailabilityUpdateRequest xmlns="http://www.derbysoft.com/chapaai" Token="token" UserName="UserName" Password="PassWord" HotelCode="HotelCode">
+  <StayAvailabilities>
+    <StayAvailability RoomTypeCode="chanelRoomType1" RatePlanCode="channelRatePlan1" LOS="2">
+      <DateSpan start="2014-06-10" end="2014-06-10"/>
+      <DayRates/>
+    </StayAvailability>
+    <StayAvailability RoomTypeCode="chanelRoomType2" RatePlanCode="channelRatePlan1" LOS="2">
+      <DateSpan start="2014-06-11" end="2014-06-11"/>
+      <DayRates/>
+    </StayAvailability>
+  </StayAvailabilities>
+</StayAvailabilityUpdateRequest>
