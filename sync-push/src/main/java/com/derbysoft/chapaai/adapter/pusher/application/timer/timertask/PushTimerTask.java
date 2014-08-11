@@ -5,10 +5,7 @@ import com.derbysoft.chapaai.adapter.pusher.domain.model.Provider;
 import com.derbysoft.chapaai.adapter.pusher.domain.model.constant.SyncConstant;
 import com.derbysoft.chapaai.adapter.pusher.domain.repository.ProviderRepository;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TimerTask;
+import java.util.*;
 
 public abstract class PushTimerTask extends TimerTask {
 
@@ -20,12 +17,12 @@ public abstract class PushTimerTask extends TimerTask {
     private ProviderRepository providerRepository;
 
 
-    public PushTimerTask(){
-       this(SyncConstant.DEFAULT_INTERVAL_SECONDS);
+    public PushTimerTask() {
+        this(SyncConstant.DEFAULT_INTERVAL_SECONDS);
     }
 
 
-    public PushTimerTask(int intervalSeconds){
+    public PushTimerTask(int intervalSeconds) {
         this.intervalSeconds = intervalSeconds;
     }
 
@@ -57,7 +54,7 @@ public abstract class PushTimerTask extends TimerTask {
         }
     }
 
-    public void stop(){
+    public void stop() {
         for (ProviderPushTimer providerPullTimer : providerPullTimerMap.values()) {
             providerPullTimer.stop();
         }

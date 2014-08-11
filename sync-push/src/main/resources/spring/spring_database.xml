@@ -94,7 +94,7 @@
     <!--Transaction-->
 
     <!--Repository-->
-    <bean id="ProviderRepository"
+    <bean id="providerRepository"
           class="com.derbysoft.chapaai.adapter.pusher.domain.repository.impl.ProviderRepositoryImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>

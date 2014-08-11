@@ -23,7 +23,7 @@
 
     <bean id="hotelPushService"
           class="com.derbysoft.chapaai.adapter.pusher.application.service.impl.HotelPushServiceImpl">
-        <property name="changeRepository" ref="ChangeRepository"/>
+        <property name="changeRepository" ref="changeRepository"/>
         <property name="pushServices">
             <list>
                 <ref bean="stayAvailabilityPushService"/>
@@ -31,7 +31,7 @@
         </property>
     </bean>
 
-    <bean id="ChangeRepository"
+    <bean id="changeRepository"
           class="com.derbysoft.chapaai.adapter.pusher.domain.repository.impl.ChangeRepositoryImpl">
         <property name="synchronizeChangeService" ref="synchronizerRemoteService"/>
         <property name="channel" value="${push.channel}"/>

@@ -20,7 +20,7 @@ public class ProviderPushTimerTask extends TimerTask {
     }
 
 
-    public void addTasksToQueue(List<PushTask> pushTasks) {
+    private void addTasksToQueue(List<PushTask> pushTasks) {
         for (PushTask pushTask : pushTasks) {
             boolean addTaskResult = pushTaskQueue.addTask(pushTask);
             //TODO add log to record
