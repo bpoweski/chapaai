@@ -10,7 +10,6 @@
     <version>1.0</version>
     <modules>
         <module>core</module>
-        <module>sync-core</module>
         <module>sync-push</module>
         <module>sync-push-protocol</module>
     </modules>

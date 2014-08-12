@@ -48,7 +48,7 @@ public abstract class PushTimerTask extends TimerTask {
             String providerCode = provider.getProviderCode();
             if (!providerPullTimerMap.containsKey(providerCode)) {
                 providerPushTimer = createProviderPushTimer();
-                providerPushTimer.start(providerCode, intervalSeconds, provider.getPushThreadPoolSize());
+                providerPushTimer.start(providerCode, intervalSeconds, provider.getPushThreadCount());
                 providerPullTimerMap.put(providerCode, providerPushTimer);
             }
         }

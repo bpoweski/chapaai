@@ -13,7 +13,7 @@
         <property name="providerCode"
                   column="PROVIDER_CODE"
                   type="java.lang.String"/>
-        <property name="pushThreadPoolSize"
+        <property name="getPushThreadCount"
                   column="PUSH_THREADPOOL_SIZE"
                   type="java.lang.Integer"/>
         <property name="disabled"

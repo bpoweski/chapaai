@@ -120,7 +120,7 @@ public class PushTimerTaskTest {
     public Provider createMockProvider(String providerCode, int pushThreadPoolSize) {
         Provider result = mock(Provider.class);
         when(result.getProviderCode()).thenReturn(providerCode);
-        when(result.getPushThreadPoolSize()).thenReturn(pushThreadPoolSize);
+        when(result.getPushThreadCount()).thenReturn(pushThreadPoolSize);
 
         return result;
 

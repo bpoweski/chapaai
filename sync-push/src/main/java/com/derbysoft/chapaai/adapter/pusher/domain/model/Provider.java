@@ -1,20 +1,35 @@
 package com.derbysoft.chapaai.adapter.pusher.domain.model;
 
 
-public class Provider {
+import com.derbysoft.ccs.core.MappingEntry;
+import com.derbysoft.common.util.Constants;
+import org.apache.commons.lang3.StringUtils;
 
-    private String id;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class Provider implements MappingEntry {
     private String providerCode;
-    private int pushThreadPoolSize;
+    private int pushThreadCount;
     private boolean disabled;
-    private boolean pushStayAvailability;
+    private String pushChangeJobNames;
 
-    public String getId() {
-        return id;
+    public List<String> getPushChangeJobNameList() {
+        ArrayList<String> pushJobNameList = new ArrayList<String>();
+        if (StringUtils.isBlank(pushChangeJobNames)) {
+            return pushJobNameList;
+        }
+        Collections.addAll(pushJobNameList, StringUtils.split(pushChangeJobNames, Constants.COMMA));
+        return pushJobNameList;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public String getPushChangeJobNames() {
+        return pushChangeJobNames;
+    }
+
+    public void setPushChangeJobNames(String pushChangeJobNames) {
+        this.pushChangeJobNames = pushChangeJobNames;
     }
 
     public String getProviderCode() {
@@ -25,12 +40,12 @@ public class Provider {
         this.providerCode = providerCode;
     }
 
-    public int getPushThreadPoolSize() {
-        return pushThreadPoolSize;
+    public int getPushThreadCount() {
+        return pushThreadCount;
     }
 
-    public void setPushThreadPoolSize(int pushThreadPoolSize) {
-        this.pushThreadPoolSize = pushThreadPoolSize;
+    public void setPushThreadCount(int pushThreadCount) {
+        this.pushThreadCount = pushThreadCount;
     }
 
     public boolean isDisabled() {
@@ -39,31 +54,5 @@ public class Provider {
 
     public void setDisabled(boolean disabled) {
         this.disabled = disabled;
-    }
-
-    public boolean isPushStayAvailability() {
-        return pushStayAvailability;
-    }
-
-    public void setPushStayAvailability(boolean pushStayAvailability) {
-        this.pushStayAvailability = pushStayAvailability;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Provider)) return false;
-
-        Provider provider = (Provider) o;
-
-        if (providerCode != null ? !providerCode.equals(provider.providerCode) : provider.providerCode != null)
-            return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        return providerCode != null ? providerCode.hashCode() : 0;
     }
 }

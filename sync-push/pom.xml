@@ -99,11 +99,10 @@
             <version>1.0</version>
         </dependency>
         <dependency>
-            <groupId>com.derbysoft.adapter.sync-core</groupId>
-            <artifactId>sync-core</artifactId>
-            <version>1.0</version>
+            <groupId>com.derbysoft</groupId>
+            <artifactId>derbysoft-commons</artifactId>
+            <version>1.8</version>
         </dependency>
-
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>

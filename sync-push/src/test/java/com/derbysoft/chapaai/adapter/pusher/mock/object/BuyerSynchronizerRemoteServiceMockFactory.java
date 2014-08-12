@@ -1,6 +1,5 @@
 package com.derbysoft.chapaai.adapter.pusher.mock.object;
 
-import com.derbysoft.chapaai.adapter.pusher.integrationtest.SystemTest;
 import com.derbysoft.dswitch.dto.hotel.cds.LOSRateChangeDTO;
 import com.derbysoft.dswitch.dto.hotel.cds.LOSRateDTO;
 import com.derbysoft.dswitch.dto.hotel.cds.OccupancyRateDTO;
@@ -52,7 +51,7 @@ public class BuyerSynchronizerRemoteServiceMockFactory {
 
         List<HotelKeysDTO> hotelKeys = new ArrayList<HotelKeysDTO>();
         HotelKeysDTO hotelKeysDTO1 = new HotelKeysDTO();
-        hotelKeysDTO1.setHotel(SystemTest.HOTEL_1);
+        hotelKeysDTO1.setHotel("HOTEL_1");
         hotelKeysDTO1.setKeysList(Arrays.asList(KEY_1, KEY_2));
 
         hotelKeys.add(hotelKeysDTO1);
@@ -86,7 +85,7 @@ public class BuyerSynchronizerRemoteServiceMockFactory {
         changesDTO2.setLosRateChanges(losRateChanges2);
 
 
-        getChangesRS.setHotel(SystemTest.HOTEL_1);
+        getChangesRS.setHotel("HOTEL_1");
         getChangesRS.setChangesList(Arrays.asList(changesDTO1,changesDTO1));
         result.setGetChangesRS(getChangesRS);
         return result;
